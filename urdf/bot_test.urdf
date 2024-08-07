@@ -1,0 +1,108 @@
+<?xml version="1.0" ?>
+
+<robot name="test_robot">
+  <link name="base_link"/>
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+  </joint>
+
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <robot_param>robot_description</robot_param>
+      <robot_param_node>robot_state_publisher</robot_param_node>
+      <parameters>./src/gazebo_ros2_control_a_mini_demo/config/gazebo_robot_control.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+  <ros2_control name="RobotSystem" type="system">
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    <joint name="knee_pitch_joint">
+      <param name="pos_kp">100000</param>
+      <param name="pos_ki">0</param>
+      <param name="pos_kd">100</param>
+      <param name="pos_max_integral_error">10000</param>
+      <param name="vel_kp">1000</param>
+      <param name="vel_ki">0</param>
+      <param name="vel_kd">0.0</param>
+      <param name="vel_max_integral_error">10000</param>
+      <command_interface name="position">
+        <param name="min">-1.1306242894419267</param>
+        <param name="max">0.0</param>
+      </command_interface>
+      <command_interface name="velocity">
+        <param name="min">-0.4419173666049642</param>
+        <param name="max">0.4419173666049642</param>
+      </command_interface>
+      <command_interface name="effort">
+        <param name="min">-0.4419173666049642</param>
+        <param name="max">0.4419173666049642</param>
+      </command_interface>
+      <state_interface name="position">
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+  </ros2_control>
+
+  <joint name="base_link_amr_base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="leg_base_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+  
+  <link name="leg_base_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.010333662 0.0 -0.15895034"/>
+      <mass value="3.3014587"/>
+      <inertia ixx="0.045806401" ixy="0.0" ixz="-0.0069178148" iyy="0.058648771" iyz="0.0" izz="0.0472552"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+      <material name="lightgrey">
+        <color rgba=".7 .7 .7 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="knee_pitch_joint" type="revolute">
+    <parent link="leg_base_link"/>
+    <axis xyz="0 1 0"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    <child link="knee_pitch_link"/>
+    <limit effort="960" lower="-1.1306242894419267" upper="0.0" velocity="0.4419173666049642"/>
+  </joint>
+
+  <link name="knee_pitch_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0078493795 0.00087904876 0.21099428"/>
+      <mass value="15.105912"/>
+      <inertia ixx="0.23863384" ixy="0.00057171908" ixz="0.0059340096" iyy="0.22037087" iyz="0.0015122357" izz="0.089415464"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.6"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.2"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.6"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.2"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>
