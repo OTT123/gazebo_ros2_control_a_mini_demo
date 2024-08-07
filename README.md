@@ -17,5 +17,6 @@
 * change run_gazebo.py [ctrl_name] to tau_controller, restart and pub
 
   ```ros2 topic pub /tau_controller/commands std_msgs/msg/Float64MultiArray "{data: [-1]}" --once"```
-* if you want pit control, change <command_interface name="position"> to <command_interface name="position_pid"> or
- change <command_interface name="velocity"> to <command_interface name="position_pid">
+* if you want pid control, 
+* change <command_interface name="position"> to <command_interface name="position_pid">
+* or change <command_interface name="velocity"> to <command_interface name="position_pid">
