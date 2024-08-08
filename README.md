@@ -1,5 +1,5 @@
 # gazebo_debug_demo
-# USEAGE
+# USAGE
 * ```mkdir -p test_ws/src```
 * ```cd test_ws/src```
 * ```git clone ```
