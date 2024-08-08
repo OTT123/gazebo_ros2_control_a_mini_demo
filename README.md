@@ -20,3 +20,5 @@
 * if you want pid control, 
 * change <command_interface name="position"> to <command_interface name="position_pid">
 * or change <command_interface name="velocity"> to <command_interface name="position_pid">
+
+* In position control mode, when your position input is a fixed value, the velocity will stabilize at a non-zero constant after the joint motion ends. This should be a bug.
